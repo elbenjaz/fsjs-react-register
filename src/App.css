@@ -1,0 +1,11 @@
+.Registro {
+    width: 400px;
+    border-radius: 20px;
+    background-color: #fff;
+    padding: 40px;
+}
+
+.SocialButton i {
+    margin: 10px;
+    font-size: 50px;
+}
