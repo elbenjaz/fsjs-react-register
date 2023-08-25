@@ -1,12 +1,11 @@
-import Alert from "./Alert";
+import Feedback from "./Feedback";
 import Formulario from "./Formulario";
 import SocialButton from "./SocialButton";
 
 import { useState } from "react";
 
 const Registro = () => {
-    const [error, setError] = useState("");
-    const [success, setSuccess] = useState("");
+    const [feedback, setFeedback] = useState("");
 
     return (
         <div className="Registro">
@@ -20,11 +19,9 @@ const Registro = () => {
                 <p>Or use your email</p>
             </div>
 
-            <Formulario setError={setError} setSuccess={setSuccess} />
+            <Formulario setFeedback={setFeedback} />
 
-            {error ? <Alert message={error} type="error" /> : null}
-
-            {success ? <Alert message= {success} type="success" /> : null}
+            <Feedback feedback={feedback} setFeedback={setFeedback} />
         </div>
     );
 };

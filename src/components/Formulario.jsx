@@ -1,6 +1,9 @@
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+
 import { useState } from "react";
 
-const Formulario = ({setError, setSuccess}) => {
+const Formulario = ({setFeedback}) => {
     const fields = {
         name : "",
         email : "",
@@ -19,12 +22,12 @@ const Formulario = ({setError, setSuccess}) => {
         let passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*\W).{6,}$/;
 
         if (!passwordRegex.test(password)) {
-            setError("The password must have a minimum of 6 characters, 1 symbol, 1 number, and 1 letter.");
+            setFeedback({"error" : "The password must have a minimum of 6 characters, 1 symbol, 1 number, and 1 letter."});
             return false;
         }
 
         if (password !== passwordrepeat) {
-            setError("Passwords does not match.");
+            setFeedback({"error" : "Passwords does not match."});
             return false;
         }
 
@@ -33,21 +36,20 @@ const Formulario = ({setError, setSuccess}) => {
         
     const onFormChange = (e) => {
         setFormData({...formData, [e.target.name] : e.target.value });
-    }
+    };
 
     const registerSubmit = (e) => {
         e.preventDefault();
 
-        setError("");
-        setSuccess("");
+        setFeedback("");
 
         if (!formData.name.trim() || !formData.email.trim() || !formData.password || !formData.passwordrepeat) {
-            setError("All fields are required.");
+            setFeedback({"error" : "All fields are required."});
             return false;
         }
 
         if (!isValidEmail(formData.email)) {
-            setError("Email is not valid.");
+            setFeedback({"error" : "Email is not valid."});
             return false;
         }
 
@@ -57,63 +59,61 @@ const Formulario = ({setError, setSuccess}) => {
 
         setFormData(fields);
 
-        setSuccess(`${formData.name}, your registration has been completed.`);
+        setFeedback({"success" : `${formData.name}, your registration has been completed.`});
 
         return true;
     };
 
     return (
-        <form onSubmit={registerSubmit}>
-            <div className="form-group mb-3">
-                <label>Name</label>
-                <input
+        <Form onSubmit={registerSubmit}>
+            <Form.Group className="mb-3">
+                <Form.Label>Name</Form.Label>
+                <Form.Control
                     type="text"
                     name="name"
-                    className="form-control"
                     onChange={onFormChange}
                     value={formData.name}
                     autoComplete="off"
                 />
-            </div>
+            </Form.Group>
 
-            <div className="form-group mb-3">
-                <label>Email</label>
-                <input
+            <Form.Group className="mb-3">
+                <Form.Label>Email</Form.Label>
+                <Form.Control
                     type="text"
                     name="email"
-                    className="form-control"
                     onChange={onFormChange}
                     value={formData.email}
                     autoComplete="off"
                 />
-            </div>
+            </Form.Group>
 
-            <div className="form-group mb-3">
-                <label>Password</label>
-                <input
+            <Form.Group className="mb-3">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
                     type="password"
                     name="password"
-                    className="form-control"
                     onChange={onFormChange}
                     value={formData.password}
                     autoComplete="off"
                 />
-            </div>
+            </Form.Group>
 
-            <div className="form-group mb-3">
-                <label>Repeat password</label>
-                <input
+            <Form.Group className="mb-3">
+                <Form.Label>Repeat password</Form.Label>
+                <Form.Control
                     type="password"
                     name="passwordrepeat"
-                    className="form-control"
                     onChange={onFormChange}
                     value={formData.passwordrepeat}
                     autoComplete="off"
                 />
-            </div>
+            </Form.Group>
 
-            <button type="submit" className="btn btn-success w-100 my-3">Register</button>
-        </form>
+            <Button type="submit" variant="success" className="w-100 my-3">
+                Register
+            </Button>
+        </Form>
     );
 };
 
